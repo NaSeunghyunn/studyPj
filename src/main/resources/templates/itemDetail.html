@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>아이템 상세화면</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/datepicker.css">
+    <link rel="stylesheet" href="/css/base.css">
+</head>
+
+<style>
+    .fit-width{
+        width: auto;
+        flex-flow: nowrap;
+        white-space: nowrap;
+    }
+</style>
+
+<body>
+<!-- Category Modal -->
+<div th:replace="/modal/spaceModal.html :: modal-space(selectModal)"></div>
+<div th:replace="/modal/categoryModal.html :: modal-category(addModal)"></div>
+
+<div class="container mt-3">
+
+    <div class="container-fluid p-1 mb-3 bg-light text-center">
+        <h1 th:if="${id} == '0'" th:text="#{itemRegistration}">물건 등록</h1>
+        <h1 th:unless="${id} == '0'" th:text="#{itemDetail}">물건 상세</h1>
+    </div>
+
+    <hr class="mt-0">
+
+    <p class="err text-danger"></p>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" th:text="#{itemName}">아이템 이름</span>
+        <input type="text" class="form-control" id="itemName">
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" th:text="#{itemDescription}">아이템 설명</span>
+        <textarea class="form-control" id="itemDescription"></textarea>
+    </div>
+    <div class="input-group mb-3 locations">
+        <span class="input-group-text" th:text="#{location}">위치</span>
+    </div>
+    <div class="input-group mb-3 div-modal">
+        <span class="input-group-text" th:text="#{space}">장소</span>
+        <input type="text" class="form-control modal-space-name" id="spaceName">
+        <input type="hidden" id="spaceId" class="modal-space-id">
+        <!-- Button to Open the Modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#spaceModal" th:text="#{select}">장소 선택</button>
+    </div>
+    <div class="input-group mb-3 categories">
+        <span class="input-group-text" th:text="#{category}">카테고리</span>
+    </div>
+    <div style="display:flex;">
+        <div class="input-group mb-3 addCategories fit-width">
+            <span class="input-group-text" th:text="#{modCategory}">수정 카테고리</span>
+        </div>
+        <div class="input-group mb-3 div-modal">
+            <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#categoryModal" th:text="#{addCategory}">카테고리 추가하기</button>
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" th:text="#{purchaseDate}">구입 날짜</span>
+        <input type="text" id="purchaseDate" class="datepicker input-text-datepicker mr-2" readonly>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" th:text="#{expirationDate}">유통기한</span>
+        <input type="text" id="expirationDate" class="datepicker input-text-datepicker mr-2" readonly>
+    </div>
+    <div class="form-check form-switch mb-2">
+        <input class="form-check-input" type="checkbox" id="disposeSwitch" name="disposeFlg" onclick="index.switchDispose();">
+        <label class="form-check-label" id="disposeLabel" for="disposeSwitch" th:text="#{disposeDesc}">disposeDesc</label>
+    </div>
+    <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" id="disappearSwitch" name="disappearFlg" onclick="index.switchDisappear();">
+        <label class="form-check-label" id="disappearLabel" for="disappearSwitch" th:text="#{disappearDesc}">disposeDesc</label>
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <div>
+            <a href="/item" class="btn btn-primary btn-back" th:text="#{back}">돌아가기</a>
+        </div>
+        <div class="status-mod">
+            <button type="button" class="btn btn-primary btn-del" th:text="#{delete}" onclick="api.del();">삭제</button>
+            <button type="button" class="btn btn-primary btn-mod" th:text="#{modify}" onclick="api.save();">수정</button>
+        </div>
+        <div class="status-reg">
+            <button type="button" class="btn btn-primary btn-reg" th:text="#{registration}" onclick="api.save();">등록</button>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="id" th:value="${id}">
+</body>
+<script src="/js/common.js"></script>
+<script src="/js/itemDetail.js"></script>
+<script src="/js/modal.js"></script>
+</html>
