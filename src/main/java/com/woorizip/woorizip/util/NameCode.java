@@ -8,7 +8,8 @@ public enum NameCode {
     CATEGORY_NAME("categoryName"),
     PARENT_CATEGORY("parentCategory"),
     SPACE("space"),
-    SPACE_NAME("spaceName"),;
+    SPACE_NAME("spaceName"),
+    PARENT_SPACE("parentSpace");
 
     private final String code;
 

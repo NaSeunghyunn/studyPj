@@ -1,5 +1,6 @@
 package com.woorizip.woorizip.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,11 +18,8 @@ public class Space {
     @Id
     @GeneratedValue
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
-    @Column(nullable = false)
-    private String type;
-    private String description;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_id")
     private Space parent;
@@ -30,6 +28,18 @@ public class Space {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "house_id")
     private House house;
-    @OneToMany(mappedBy = "space")
-    private List<Item> items = new ArrayList<>();
+
+    @Builder
+    public Space(String name, Space parent) {
+        this.name = name;
+        this.parent = parent;
+    }
+
+    public void changeName(String name){
+        this.name = name;
+    }
+
+    public void changeParent(Space parent){
+        this.parent = parent;
+    }
 }

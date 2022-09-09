@@ -13,12 +13,14 @@ public class ItemSearchCond {
     private String itemName;
     private String itemDescription;
     private String spaceName;
+    private String categoryName;
 
     public static ItemSearchCond of(ItemForm form) {
         return ItemSearchCond.builder()
                 .itemName(form.getItemName())
                 .itemDescription(form.getItemDescription())
-                .spaceName(form.getSpaceName()).build();
+                .spaceName(form.getSpaceName())
+                .categoryName(form.getCategoryName()).build();
     }
 }
 

@@ -17,6 +17,7 @@ public class ItemDto {
     private String name;
     private String spaceName;
     private String itemDescription;
+    private List<String> categoryNames;
 
     @Builder
     @QueryProjection
