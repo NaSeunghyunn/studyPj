@@ -86,7 +86,7 @@
 
     <div class="d-flex justify-content-between">
         <div>
-            <a href="/item" class="btn btn-primary btn-back" th:text="#{back}">돌아가기</a>
+            <a th:href="${referer}" class="btn btn-primary" th:text="#{back}">돌아가기</a>
         </div>
         <div class="status-mod">
             <button type="button" class="btn btn-primary btn-del" th:text="#{delete}" onclick="api.del();">삭제</button>
@@ -98,6 +98,7 @@
     </div>
 </div>
 <input type="hidden" id="id" th:value="${id}">
+<input type="hidden" id="referer" th:value="${referer}">
 </body>
 <script src="/js/common.js"></script>
 <script src="/js/itemDetail.js"></script>

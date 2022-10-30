@@ -3,6 +3,7 @@ package com.woorizip.woorizip.dto;
 import com.woorizip.woorizip.entity.Category;
 import com.woorizip.woorizip.entity.Item;
 import com.woorizip.woorizip.entity.Space;
+import com.woorizip.woorizip.util.DateUtil;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -56,8 +57,8 @@ public class ItemDetailDto {
         return ItemDetailDto.builder()
                 .id(item.getId())
                 .name(item.getName())
-                .purchaseDate(item.getPurchaseDate())
-                .expirationDate(item.getExpirationDate())
+                .purchaseDate(DateUtil.formatDate(item.getPurchaseDate()))
+                .expirationDate(DateUtil.formatDate(item.getExpirationDate()))
                 .disposeFlg(item.getDisposeFlg())
                 .disappearFlg(item.getDisappearFlg())
                 .description(item.getDescription()).build();

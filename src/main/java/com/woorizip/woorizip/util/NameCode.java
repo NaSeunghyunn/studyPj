@@ -9,7 +9,8 @@ public enum NameCode {
     PARENT_CATEGORY("parentCategory"),
     SPACE("space"),
     SPACE_NAME("spaceName"),
-    PARENT_SPACE("parentSpace");
+    PARENT_SPACE("parentSpace"),
+    DATE("date");
 
     private final String code;
 

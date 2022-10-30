@@ -14,7 +14,7 @@ let categoryModal = {
         let data = {
             name: $("#categorySearchName").val()
         }
-        commonMethod.get("/category/search", data, this.searchCallback);
+        commonMethod.get("/category/search", data, this.searchCallback, function(){});
     },
 
     searchEnter: function (e) {
@@ -85,7 +85,7 @@ let spaceModal = {
         let data = {
             name: $("#spaceSearchName").val()
         }
-        commonMethod.get("/space/search", data, this.searchCallback);
+        commonMethod.get("/space/search", data, this.searchCallback, function(){});
     },
 
     searchEnter: function (e) {

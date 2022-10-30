@@ -9,6 +9,7 @@ public enum MessageCode {
     LOWER_LAYER_MOD_ERROR("E0003","상위{0}는 하위{0}로 수정불가능합니다."),
     EXISTS_REGISTER_ERROR("E0004","이미 등록된 {0}입니다."),
     PROCESSING_DELETE_ERROR("E0005","사용중인 {0}는 삭제할 수 없습니다."),
+    BAD_INPUT_ERROR("E0006", "잘못된 {0}를 입력하셨습니댜."),
     INTERNAL_SERVER_ERROR("S0001","서버가 원활하지 않습니다. 잠시후 다시 시도해주세요.");
 
     private final String code;

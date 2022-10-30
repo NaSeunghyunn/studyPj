@@ -145,7 +145,7 @@ let api = {
             categoryIds: categoryIds
         };
 
-        commonMethod.fetch(url, "POST", body).then(data => location.href = "/item/" + data)
+        commonMethod.fetch(url, "POST", body).then(data => location.href = "/item/" + data + "?referer="+$("#referer").val())
         .catch(error => commonMethod.drawError(error));
     },
 
@@ -156,7 +156,7 @@ let api = {
             id: $("#id").val()
         };
 
-        commonMethod.fetch(url, "DELETE", body).then(() => location.href = "/item")
+        commonMethod.fetch(url, "DELETE", body).then(() => location.href = $("#referer").val())
         .catch(error => commonMethod.drawError(error));
     }
 

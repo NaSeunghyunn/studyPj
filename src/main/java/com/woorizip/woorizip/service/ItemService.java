@@ -5,14 +5,13 @@ import com.woorizip.woorizip.Repository.ItemCategoryRepository;
 import com.woorizip.woorizip.Repository.ItemRepository;
 import com.woorizip.woorizip.Repository.SpaceRepository;
 import com.woorizip.woorizip.controller.form.ItemSaveForm;
-import com.woorizip.woorizip.dto.ItemDetailDto;
-import com.woorizip.woorizip.dto.ItemDto;
-import com.woorizip.woorizip.dto.ItemSearchCond;
+import com.woorizip.woorizip.dto.*;
 import com.woorizip.woorizip.entity.Category;
 import com.woorizip.woorizip.entity.Item;
 import com.woorizip.woorizip.entity.ItemCategory;
 import com.woorizip.woorizip.entity.Space;
 import com.woorizip.woorizip.exception.ApiException;
+import com.woorizip.woorizip.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,12 +81,12 @@ public class ItemService {
 
     private List<ItemCategory> getItemCategoriesForSave(ItemSaveForm form, List<ItemCategory> itemCategories, Item saveItem) {
         List<Long> oldCategoryIds = itemCategories.stream()
-                .map(ItemCategory :: getCategory)
-                .map(Category :: getId).collect(Collectors.toList());
+                .map(ItemCategory::getCategory)
+                .map(Category::getId).collect(Collectors.toList());
 
         List<ItemCategory> itemCategoriesForSave = new ArrayList<>();
-        for(Long inputCategoryId : form.getCategoryIds()){
-            if(!oldCategoryIds.contains(inputCategoryId)){
+        for (Long inputCategoryId : form.getCategoryIds()) {
+            if (!oldCategoryIds.contains(inputCategoryId)) {
                 existCategory(inputCategoryId);
                 Category saveCategory = categoryRepository.getReferenceById(inputCategoryId);
                 ItemCategory itemCategory = ItemCategory.builder().item(saveItem).category(saveCategory).build();
@@ -99,7 +98,7 @@ public class ItemService {
 
     private void existCategory(Long inputCategoryId) {
         boolean existCategory = categoryRepository.existsById(inputCategoryId);
-        if(!existCategory){
+        if (!existCategory) {
             throw new ApiException(NOT_EXIST_DATA_ERROR, CATEGORY.code());
         }
     }
@@ -133,10 +132,10 @@ public class ItemService {
         item.changeName(form.getName())
                 .changeDescription(form.getDescription())
                 .changeSpace(space)
-                .changePurchaseDate(form.getPurchaseDate())
+                .changePurchaseDate(DateUtil.parseDate(form.getPurchaseDate()))
                 .changeDisposeFlg(form.getDisposeFlg())
                 .changeDisappearFlg(form.getDisappearFlg())
-                .changeExpirationDate(form.getExpirationDate());
+                .changeExpirationDate(DateUtil.parseDate(form.getExpirationDate()));
         return item;
     }
 
@@ -153,7 +152,8 @@ public class ItemService {
 
     public void delItem(Long id) {
         existItem(id);
-        itemRepository.deleteById(id);
+        Item item = itemRepository.getReferenceById(id);
+        itemRepository.delete(item);
     }
 
     public List<ItemDto> findAllItemByName(ItemSearchCond searchCond) {
@@ -162,6 +162,14 @@ public class ItemService {
             throw new ApiException(NOT_EXIST_ERROR);
         }
         return items;
+    }
+
+    public List<ExpireItemDto> findExpireItems(ExpireSearchCond searchCond) {
+        List<ExpireItemDto> expireItems = itemRepository.searchExpireItems(searchCond);
+        if (expireItems.isEmpty()) {
+            throw new ApiException(NOT_EXIST_ERROR);
+        }
+        return expireItems;
     }
 
 }

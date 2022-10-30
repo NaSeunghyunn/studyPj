@@ -1,11 +1,10 @@
 package com.woorizip.woorizip.controller.api;
 
+import com.woorizip.woorizip.controller.form.ExpireItemForm;
 import com.woorizip.woorizip.controller.form.ItemDeleteForm;
 import com.woorizip.woorizip.controller.form.ItemForm;
 import com.woorizip.woorizip.controller.form.ItemSaveForm;
-import com.woorizip.woorizip.dto.ItemDetailDto;
-import com.woorizip.woorizip.dto.ItemDto;
-import com.woorizip.woorizip.dto.ItemSearchCond;
+import com.woorizip.woorizip.dto.*;
 import com.woorizip.woorizip.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -40,5 +39,10 @@ public class ItemApiController {
     public Long delItem(@Validated @RequestBody ItemDeleteForm form) {
         itemService.delItem(form.getId());
         return form.getId();
+    }
+
+    @PostMapping("/expire")
+    public List<ExpireItemDto> getExpireItems(@RequestBody ExpireItemForm form) {
+        return itemService.findExpireItems(ExpireSearchCond.of(form));
     }
 }

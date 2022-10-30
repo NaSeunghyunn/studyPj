@@ -1,6 +1,7 @@
 package com.woorizip.woorizip.controller.form;
 
 import com.woorizip.woorizip.entity.Item;
+import com.woorizip.woorizip.util.DateUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.StringUtils;
@@ -29,10 +30,10 @@ public class ItemSaveForm {
     public static Item createItem(ItemSaveForm formDto) {
         return Item.builder()
                 .name(formDto.getName())
-                .purchaseDate(formDto.getPurchaseDate())
+                .purchaseDate(DateUtil.parseDate(formDto.getPurchaseDate()))
                 .disposeFlg(formDto.getDisposeFlg())
                 .disappearFlg(formDto.getDisappearFlg())
-                .expirationDate(formDto.getExpirationDate())
+                .expirationDate(DateUtil.parseDate(formDto.getExpirationDate()))
                 .description(formDto.getDescription())
                 .build();
     }

@@ -22,8 +22,7 @@
 <div class="container mt-3">
 
     <div class="container-fluid p-1 mb-3 bg-light text-center">
-        <h1 th:if="${id} == '0'" th:text="#{itemRegistration}">물건 등록</h1>
-        <h1 th:unless="${id} == '0'" th:text="#{itemDetail}">물건 상세</h1>
+        <h1 th:text="#{itemSearch}">물건 찾기</h1>
     </div>
 
     <p class="err text-danger"></p>
@@ -60,6 +59,7 @@
             <div class="text-end p-3">
                 <button type="button" class="btn btn-primary" th:text="#{search}" onclick="api.search()">검색</button>
                 <a href="/item/0" class="btn btn-primary" th:text="#{registration}">등록</a>
+                <a href="/item/expire" class="btn btn-primary" th:text="#{expirationDate}">유통기한 확인하기</a>
             </div>
     </div>
 </div>
@@ -79,7 +79,6 @@
         <tbody id="tbodyItems"></tbody>
     </table>
 </div>
-<input type="hidden" id="id" th:value="${id}">
 </body>
 <script src="/js/common.js"></script>
 <script src="/js/item.js"></script>

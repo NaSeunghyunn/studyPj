@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,16 +27,16 @@ public class Item {
     @JoinColumn(name = "space_id")
     private Space space;
     @Column(length = 10)
-    private String purchaseDate;
+    private LocalDate purchaseDate;
     @Column(length = 10)
-    private String expirationDate;
+    private LocalDate expirationDate;
     private String disposeFlg;
     private String disappearFlg;
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", orphanRemoval = true)
     private List<ItemCategory> itemCategory = new ArrayList<>();
 
     @Builder
-    public Item(Long id, String name, String description, Space space, String purchaseDate, String expirationDate, String disposeFlg, String disappearFlg) {
+    public Item(Long id, String name, String description, Space space, LocalDate purchaseDate, LocalDate expirationDate, String disposeFlg, String disappearFlg) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -62,7 +62,7 @@ public class Item {
         return this;
     }
 
-    public Item changePurchaseDate(String purchaseDate) {
+    public Item changePurchaseDate(LocalDate purchaseDate) {
         this.purchaseDate = purchaseDate;
         return this;
     }
@@ -77,7 +77,7 @@ public class Item {
         return this;
     }
 
-    public Item changeExpirationDate(String expirationDate) {
+    public Item changeExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
         return this;
     }

@@ -77,7 +77,9 @@ let commonMethod = {
         }
     },
 
-    backBtn: function () {
+    back: function () {
+    console.log($("#referer").val());
+    $("#referer").val();
     },
 
     clearError: function (){

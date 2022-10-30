@@ -5,12 +5,11 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.woorizip.woorizip.Repository.querydsl.ItemRepositoryCustom;
-import com.woorizip.woorizip.dto.ItemDto;
-import com.woorizip.woorizip.dto.ItemSearchCond;
-import com.woorizip.woorizip.dto.QItemDto;
+import com.woorizip.woorizip.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +45,22 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
                 .fetch();
 
         return getItemDtoWithCategories(itemDtos, searchCond.getCategoryName());
+    }
+
+    @Override
+    public List<ExpireItemDto> searchExpireItems(ExpireSearchCond searchCond) {
+        return queryFactory
+                .select(new QExpireItemDto(
+                        item.id
+                        , item.name
+                        , space.name
+                        , item.description
+                        , item.expirationDate))
+                .from(item)
+                .leftJoin(item.space, space)
+                .where(beforeExpireDate(searchCond.getExpireDate()))
+                .orderBy(item.id.asc())
+                .fetch();
     }
 
     private BooleanExpression itemNameContains(String itemName) {
@@ -102,6 +117,10 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
 
     private BooleanExpression categoryNameContains(String categoryName) {
         return hasText(categoryName) ? category.name.contains(categoryName) : null;
+    }
+
+    private BooleanExpression beforeExpireDate(LocalDate expireDate) {
+        return item.expirationDate.before(expireDate);
     }
 
 }
